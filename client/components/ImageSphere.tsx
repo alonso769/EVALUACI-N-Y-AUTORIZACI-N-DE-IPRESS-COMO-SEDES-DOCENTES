@@ -3,30 +3,22 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js"; 
 
 // ----------------------------------------------------------------------
-// --- CÓDIGO CRUCIAL DE LA RUTA ---
+// --- CÓDIGO CRUCIAL DE LA RUTA SIMPLIFICADA ---
 // ----------------------------------------------------------------------
 
 // 1. Obtener la ruta base de Vite.
+// En local: BASE_URL será "/"
+// En producción (GitHub Pages): BASE_URL será "/EVALUACI-N-Y-AUTORIZACI-N-DE-IPRESS-COMO-SEDES-DOCENTES/"
 const VITE_BASE_URL = import.meta.env.BASE_URL;
 
-// 2. Nombre del repositorio para fallbacks (GitHub Pages)
-// ESTO ES CLAVE: DEBE COINCIDIR EXACTAMENTE CON EL NOMBRE DE TU REPOSITORIO
-const REPO_NAME = 'EVALUACI-N-Y-AUTORIZACI-N-DE-IPRESS-COMO-SEDES-DOCENTES';
-
-// 3. Función para limpiar y construir la ruta correctamente
-const cleanPath = (path: string) => path.replace(/\/\//g, '/').replace(/^\/|\/$/g, '');
-
+// 2. Función para construir la ruta
 const createImageUrl = (fileName: string) => {
-    let base = cleanPath(VITE_BASE_URL);
-
-    // Si la ruta base está vacía ('') o es solo '/', usamos el nombre del repositorio.
-    if (base === '' || base === '/') {
-        // Asume que la carpeta /images está DENTRO del subdirectorio del repo
-        base = REPO_NAME; 
-    }
+    // 3. Eliminamos la barra inicial del BASE_URL si existe, y luego lo concatenamos con la ruta relativa.
+    // Three.js Loader es inteligente y maneja las rutas relativas o absolutas.
+    const base = VITE_BASE_URL.endsWith('/') ? VITE_BASE_URL : VITE_BASE_URL + '/';
     
-    // Construimos la ruta: /nombre-repo/images/foto.jpeg
-    const finalPath = `/${base}/images/${fileName}`;
+    // La ruta final debe ser: <BASE_URL>images/<fileName>
+    const finalPath = `${base}images/${fileName}`;
 
     console.log(`[Three.js Loader] Intentando cargar: ${finalPath}`);
     
@@ -44,7 +36,7 @@ const RAW_IMAGE_NAMES = [
     'foto7.jpeg', 
 ];
 
-// Rutas de las imágenes AHORA GENERADAS DINÁMICAMENTE CON BASE_URL
+// Genera las URLs usando la ruta base de Vite
 const IMAGE_URLS = RAW_IMAGE_NAMES.map(createImageUrl);
 
 
@@ -75,7 +67,7 @@ const ImageSphere = () => {
         controls.autoRotate = false;
 
         // 3. Crear el Grupo de Imágenes (La Esfera de Fotos)
-        const textureLoader = new THREE.TextureLoader(); // Usamos THREE.TextureLoader
+        const textureLoader = new THREE.TextureLoader(); 
         const imageGroup = new THREE.Group();
         scene.add(imageGroup);
 
@@ -84,18 +76,16 @@ const ImageSphere = () => {
         const geometry = new THREE.PlaneGeometry(3, 2); 
 
         for (let i = 0; i < numImages; i++) {
-            // Usamos la URL generada por la función createImageUrl
             const imageUrl = IMAGE_URLS[i % IMAGE_URLS.length];
             
             const texture = textureLoader.load(imageUrl, 
-                // Función de éxito (opcional)
+                // Éxito
                 () => {},
-                // Función de progreso (opcional)
+                // Progreso
                 undefined,
-                // Función de error (para depuración)
+                // Error (Ahora te debe mostrar la ruta correcta en la consola)
                 (error) => {
-                    // Si ves esto en la Consola, el problema es la ruta de la imagen, no Three.js
-                    console.error('Error al cargar la textura de Three.js. La ruta es incorrecta:', imageUrl, error);
+                    console.error('Error al cargar la textura de Three.js. Revisa la ruta de la imagen:', imageUrl, error);
                 }
             );
             
