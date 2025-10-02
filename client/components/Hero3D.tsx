@@ -1,194 +1,199 @@
-import React, { Suspense, useRef, useMemo } from "react";
-import { Canvas, useFrame, useLoader } from "@react-three/fiber";
-import { OrbitControls, Stars, Html } from "@react-three/drei"; 
-import * as THREE from "three"; 
+import React, { Suspense, useMemo, useState, useEffect } from 'react';
+import { Canvas, useFrame, useLoader } from '@react-three/fiber';
+import { OrbitControls, Stars, Html } from '@react-three/drei';
+import * as THREE from 'three';
 
-export interface Hero3DProps {
-  title: string;
-  subtitle: string;
-  className?: string;
-  ctaLabel?: string;
-  onCtaClick?: () => void;
+// Importante: Asegúrate de que este componente esté en tu carpeta client/components/ui/
+
+interface Hero3DProps {
+  title: string;
+  subtitle: string;
+  className?: string;
+  ctaLabel?: string;
+  onCtaClick?: () => void;
 }
 
-// =========================================================================
-// 📌 SOLUCIÓN FINAL DE RUTA DE ASSETS PARA VITE/GITHUB PAGES: 
-// Utilizamos import.meta.env.BASE_URL para construir la ruta base.
-// Esto garantiza que Three.js apunte correctamente al subdirectorio del repositorio.
-// =========================================================================
-const IMAGE_FILES = [
-    'foto1.jpeg', 
-    'foto2.jpeg', 
-    'foto3.jpeg', 
-    'foto4.jpeg', 
-    'foto5.jpeg', 
-    'foto6.jpeg', 
-    'foto7.jpeg', 
+// *** IMPORTANTE: Usa la variable de entorno BASE_URL de Vite ***
+// Esto es CRUCIAL para que las rutas funcionen en el subdirectorio de GitHub Pages (/EVALUACI-N-Y-AUTORIZACI-N-DE-IPRESS-COMO-SEDES-DOCENTES/)
+const BASE_URL = import.meta.env.BASE_URL;
+
+// Rutas de las imágenes. Asegúrate de que están en la carpeta 'public/images/'
+// SOLUCIÓN FINAL: Usamos la extensión .jpeg (¡cuatro letras!) y el BASE_URL de Vite.
+// Nota: Las mayúsculas o minúsculas del nombre del archivo deben ser EXACTAS.
+const IMAGE_URLS = [
+  `${BASE_URL}images/foto1.jpeg`,
+  `${BASE_URL}images/foto2.jpeg`,
+  `${BASE_URL}images/foto3.jpeg`,
+  `${BASE_URL}images/foto4.jpeg`,
+  `${BASE_URL}images/foto5.jpeg`,
+  `${BASE_URL}images/foto6.jpeg`,
+  `${BASE_URL}images/foto7.jpeg`,
 ];
 
-// Mapeamos los nombres de archivo a URLs completas, usando la variable de entorno BASE_URL 
-// que Vite establece según la configuración 'base' (que en tu caso es '').
-// Esto resulta en rutas como: "images/foto1.jpeg" (cuando 'base' es '').
-const IMAGE_URLS = IMAGE_FILES.map(
-    file => `${import.meta.env.BASE_URL}images/${file}`
-);
+// ----------------------------------------------------------------------
+// --- NUEVO: ErrorBoundary para capturar fallos dentro del Canvas ---
+// ----------------------------------------------------------------------
 
-// --- NUEVO: Error Boundary simple para capturar fallos dentro del Canvas ---
 class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { hasError: boolean }> {
-    constructor(props: any) {
-        super(props);
-        this.state = { hasError: false };
-    }
+  constructor(props: any) {
+    super(props);
+    this.state = { hasError: false };
+  }
 
-    static getDerivedStateFromError(error: any) {
-        // Actualiza el estado para que el próximo renderizado muestre la UI de fallback.
-        console.error("Error en componente 3D:", error);
-        return { hasError: true };
-    }
+  static getDerivedStateFromError(error: any) {
+    // Actualiza el estado para que el próximo renderizado muestre la UI de fallback.
+    console.error("Error en componente 3D:", error);
+    return { hasError: true };
+  }
 
-    componentDidCatch(error: any, errorInfo: any) {
-        // También puedes registrar el error en un servicio de reporte de errores
-        console.error("Detalles del Error:", error, errorInfo);
-    }
+  componentDidCatch(error: any, errorInfo: any) {
+    // También puedes registrar el error en un servicio de reporte de errores
+    console.error("Detalles del Error:", error, errorInfo);
+  }
 
-    render() {
-        if (this.state.hasError) {
-            // UI de fallback en caso de error de carga
-            return (
-                <Html center>
-                    <div className="text-white text-lg font-semibold bg-red-700/80 p-6 rounded-lg shadow-xl max-w-sm">
-                        🚨 Error de Carga 3D 🚨
-                        <p className="mt-2 text-sm font-normal">No se pudo cargar la escena 3D. Esto suele ser causado por **archivos de imagen faltantes o rutas incorrectas** en la carpeta `public/images/`.</p>
-                        <p className="mt-2 text-sm font-normal">Revisa la Consola (F12) para ver los errores `❌ ERROR DE CARGA DE TEXTURA`.</p>
-                    </div>
-                </Html>
-            );
-        }
-        return this.props.children;
-    }
-}
-// --- FIN Error Boundary ---
-
-
-// Componente de la Esfera de Imágenes
-function ImageSphereCampus() {
-    const groupRef = useRef<THREE.Group>(null!);
-    
-    // Manejamos el error de carga configurando el 'manager' del loader.
-    const textures = useLoader(THREE.TextureLoader, IMAGE_URLS, (loader) => {
-        if (loader.manager) {
-            loader.manager.onError = (url) => console.error("❌ ERROR DE CARGA DE TEXTURA:", url);
-        }
-    });
-
-    // Crea los meshes de la esfera
-    const meshes = useMemo(() => {
-        const tempMeshes = [];
-        
-        const numTextures = textures.length;
-        if (numTextures === 0) return [];
-
-        const numMeshes = 150; 
-        const radius = 25; 
-        // AUMENTAMOS EL TAMAÑO DE LOS PLANOS: de (3, 2) a (5, 3)
-        const geometry = new THREE.PlaneGeometry(5, 3); 
-
-        for (let i = 0; i < numMeshes; i++) {
-            const texture = textures[i % numTextures]; 
-            
-            const material = new THREE.MeshBasicMaterial({ 
-                map: texture, 
-                side: THREE.DoubleSide, 
-                transparent: false,
-                color: 0xffffff 
-            }); 
-            const mesh = new THREE.Mesh(geometry, material);
-
-            // Cálculo de Posición Esférica
-            const phi = Math.acos(1 - (2 * i) / numMeshes); 
-            const theta = Math.sqrt(numMeshes * Math.PI) * phi; 
-
-            mesh.position.setFromSphericalCoords(radius, phi, theta);
-            mesh.lookAt(new THREE.Vector3(0, 0, 0)); 
-            
-            tempMeshes.push(mesh);
-        }
-        return tempMeshes;
-    }, [textures]);
-
-    // Lógica de rotación de la esfera
-    useFrame((state, delta) => {
-        if (groupRef.current) {
-            groupRef.current.rotation.y += delta * 0.1; 
-        }
-    });
-
-    return (
-        <group ref={groupRef}>
-            {meshes.map((mesh, index) => (
-                <primitive key={index} object={mesh} />
-            ))}
-        </group>
-    );
+  render() {
+    if (this.state.hasError) {
+      // Puedes renderizar cualquier UI de fallback personalizada
+      return (
+        <div className="absolute inset-0 flex items-center justify-center p-8 bg-red-100/80 backdrop-blur-sm z-50 rounded-lg shadow-xl border-4 border-red-500">
+          <div className="text-center text-red-700">
+            <h1 className="text-2xl font-bold mb-2">🚨 Error de Carga 3D 🚨</h1>
+            <p className="mb-4">No se pudo cargar la escena 3D. Esto suele ser causado por **archivos de imagen faltantes o rutas incorrectas** en la carpeta **`public/images/`**.</p>
+            <p className="text-sm">Revisa la Consola (F12) para ver los errores: **ERROR DE CARGA DE TEXTURA**.</p>
+          </div>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
 }
 
-// Componente de Fallback visible mientras carga la escena 3D
-function LoadingFallback() {
-    return (
-        <Html center>
-            <div className="text-gray-900 text-lg font-semibold bg-white/70 p-4 rounded-lg shadow-xl">
-                Cargando imágenes 3D... (Si esto no desaparece, revisa la Consola F12 por errores de ruta)
-            </div>
-        </Html>
-    );
+// ----------------------------------------------------------------------
+// --- Componente de Esfera 3D ---
+// ----------------------------------------------------------------------
+
+interface ImageSphereProps {
+  urls: string[];
+  radius: number;
 }
 
-// Componente principal Hero3D
-export default function Hero3D({ title, subtitle, className, ctaLabel, onCtaClick }: Hero3DProps) {
-  return (
-    <section className={("relative h-[calc(100vh-4rem)] w-full overflow-hidden bg-gradient-to-b from-sky-50 via-white to-sky-100 ") + (className ?? "")}>
-      <Canvas camera={{ position: [0, 0, 50], fov: 60 }}>
-        <Suspense fallback={<LoadingFallback />}> 
-            {/* Luces y Fondo */}
-            <ambientLight intensity={0.8} /> 
-            <pointLight position={[10, 10, 10]} intensity={0.5} />
-          <Stars radius={100} depth={80} count={2000} factor={4} fade speed={0.5} />
-          
-            {/* ESCENA 3D: ESFERA DE IMÁGENES DENTRO DEL LÍMITE DE ERROR */}
-            <ErrorBoundary>
-            <ImageSphereCampus /> 
-            </ErrorBoundary>
-            
-          {/* Controles */}
-          <OrbitControls 
-                enablePan={false} 
-                maxPolarAngle={Math.PI} 
-                minDistance={15} 
-                maxDistance={80} 
-                autoRotate={true} 
-                autoRotateSpeed={0.5}
-            />
-        </Suspense>
-      </Canvas>
-      
-        {/* CONTENEDOR DE TEXTO SUPERPUESTO (UI) */}
-      <div className="pointer-events-none absolute inset-0 flex items-center justify-center p-6 text-center">
-        <div className="pointer-events-auto max-w-3xl rounded-2xl border bg-background/70 p-6 backdrop-blur">
-          <h1 className="text-3xl font-extrabold tracking-tight sm:text-5xl">{title}</h1>
-          <p className="mt-3 text-base text-muted-foreground sm:text-lg">{subtitle}</p>
-          {ctaLabel ? (
-            <div className="mt-6 flex items-center justify-center">
-              <button
-                type="button"
-                onClick={onCtaClick}
-                className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-primary px-6 text-primary-foreground shadow-lg shadow-black/10 transition-transform duration-300 hover:scale-[1.02] hover:bg-primary/90 active:scale-[0.98]"
-              >
-                {ctaLabel}
-              </button>
-            </div>
-          ) : null}
-        </div>
-      </div>
-    </section>
-  );
-}
+const ImageSphere: React.FC<ImageSphereProps> = ({ urls, radius }) => {
+  const meshRef = React.useRef<THREE.Mesh>(null!);
+  const [rotationSpeed] = useState(0.005);
+  const textures = useLoader(THREE.TextureLoader, urls);
+
+  // Mueve los planos a sus posiciones iniciales en la esfera
+  const positions = useMemo(() => {
+    const totalImages = urls.length;
+    return textures.map((_, index) => {
+      const phi = Math.acos(-1 + (2 * index) / totalImages);
+      const theta = Math.sqrt(totalImages * Math.PI) * phi;
+
+      return new THREE.Vector3(
+        radius * Math.cos(theta) * Math.sin(phi),
+        radius * Math.sin(theta) * Math.sin(phi),
+        radius * Math.cos(phi)
+      );
+    });
+  }, [urls, radius, textures]);
+
+  useFrame(() => {
+    if (meshRef.current) {
+      meshRef.current.rotation.y += rotationSpeed;
+    }
+  });
+
+  // Estilo base para los planos de imagen
+  const planeSize = [1.5, 1.0]; // Ancho, Alto
+
+  return (
+    <group ref={meshRef}>
+      {textures.map((texture, index) => (
+        <mesh 
+          key={index} 
+          position={positions[index]}
+          rotation={[
+            positions[index].x / radius, 
+            positions[index].y / radius, 
+            positions[index].z / radius
+          ]}
+        >
+          {/* PlaneGeometry crea un plano 2D */}
+          <planeGeometry args={planeSize as [number, number]} />
+          {/* MeshBasicMaterial usa la textura cargada */}
+          <meshBasicMaterial 
+            attach="material" 
+            map={texture} 
+            transparent={true}
+            side={THREE.DoubleSide} 
+          />
+        </mesh>
+      ))}
+    </group>
+  );
+};
+
+
+// ----------------------------------------------------------------------
+// --- Componente Principal ---
+// ----------------------------------------------------------------------
+
+const Hero3D: React.FC<Hero3DProps> = ({ 
+  title, 
+  subtitle, 
+  className = "", 
+  ctaLabel = "Explorar recursos", 
+  onCtaClick 
+}) => {
+  return (
+    <div className={`relative h-screen w-full flex items-center justify-center overflow-hidden ${className}`}>
+      {/* Canvas 3D que ocupa todo el contenedor */}
+      <div className="absolute inset-0 z-0">
+        <ErrorBoundary>
+          <Canvas camera={{ position: [0, 0, 10], fov: 60 }} dpr={[1, 2]}>
+            <ambientLight intensity={0.5} />
+            <pointLight position={[10, 10, 10]} intensity={1} />
+            
+            {/* Suspense: Muestra un fallback mientras se cargan las texturas */}
+            <Suspense fallback={null}> 
+              <ImageSphere urls={IMAGE_URLS} radius={4} />
+            </Suspense>
+
+            <OrbitControls 
+              enableZoom={false} 
+              enablePan={false}
+              autoRotate={true}
+              autoRotateSpeed={0.5}
+            />
+            <Stars 
+              radius={100} 
+              depth={50} 
+              count={5000} 
+              factor={4} 
+              saturation={0} 
+              fade 
+            />
+          </Canvas>
+        </ErrorBoundary>
+      </div>
+
+      {/* Contenido centrado (HTML) superpuesto al Canvas */}
+      <div className="relative z-10 text-center p-6 bg-white/70 backdrop-blur-md rounded-2xl shadow-2xl max-w-md">
+        <h1 className="text-4xl md:text-5xl font-extrabold text-gray-800 mb-4 tracking-tight">
+          {title}
+        </h1>
+        <p className="text-lg md:text-xl text-gray-600 mb-8">
+          {subtitle}
+        </p>
+        <button
+          onClick={onCtaClick}
+          className="px-8 py-3 bg-cyan-500 text-white font-semibold rounded-full shadow-lg hover:bg-cyan-600 transition duration-300 transform hover:scale-105"
+        >
+          {ctaLabel}
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default Hero3D;
