@@ -13,14 +13,15 @@ export interface Hero3DProps {
 
 // 📌 Rutas de las imágenes. Asegúrate de que están en la carpeta 'public/images/'
 // ¡INTENTO DE SOLUCIÓN FINAL: Usamos la extensión .JPG (mayúsculas) y nombres en minúsculas!
+// SOLUCIÓN: Quitamos la barra inicial '/' para usar rutas relativas al subdirectorio.
 const IMAGE_URLS = [
-    '/images/foto1.jpeg', // Cambiado a .JPG
-    '/images/foto2.jpeg', // Cambiado a .JPG
-    '/images/foto3.jpeg', // Cambiado a .JPG
-    '/images/foto4.jpeg', // Cambiado a .JPG
-    '/images/foto5.jpeg', // Cambiado a .JPG
-    '/images/foto6.jpeg', // Cambiado a .JPG
-    '/images/foto7.jpeg', // Cambiado a .JPG
+    '/images/foto1.jpeg', 
+    '/images/foto2.jpeg', 
+    '/images/foto3.jpeg', 
+    '/images/foto4.jpeg', 
+    '/images/foto5.jpeg', 
+    '/images/foto6.jpeg', 
+    '/images/foto7.jpeg', 
 ];
 
 // --- NUEVO: Error Boundary simple para capturar fallos dentro del Canvas ---

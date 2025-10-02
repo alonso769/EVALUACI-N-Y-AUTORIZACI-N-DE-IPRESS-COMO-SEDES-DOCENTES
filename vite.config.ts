@@ -6,10 +6,10 @@ import { createServer } from "./server";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  // *** SOLUCIÓN FINAL CORRECTA para GitHub Pages ***
-  // Usar una cadena vacía ('') fuerza a Vite a generar rutas de activos
-  // RELATIVAS (ej: assets/index-hash.js), resolviendo el 404 de JS.
-  base: '', 
+  // *** CORRECCIÓN CRUCIAL PARA LA CARGA DE ASSETS (IMÁGENES) ***
+  // Usamos la ruta completa del repositorio TERMINADA en barra diagonal.
+  // Esto asegura que Three.js sepa dónde buscar la carpeta 'images' de 'public'.
+  base: '/EVALUACI-N-Y-AUTORIZACI-N-DE-IPRESS-COMO-SEDES-DOCENTES/', 
   // ----------------------------------------------------------------------
   server: {
     host: "::",
