@@ -15,8 +15,8 @@ export default defineConfig(({ mode }) => ({
       deny: [".env", ".env.*", "*.{crt,pem}", "**/.git/**", "server/**"],
     },
   },
-  build: {
-    outDir: "dist", // CAMBIADO de "dist/spa" a "dist"
+ build: {
+    outDir: "docs", // ¡CAMBIADO de "dist" a "docs"!
   },
   plugins: [react(), expressPlugin()],
   resolve: {
@@ -25,7 +25,7 @@ export default defineConfig(({ mode }) => ({
       "@shared": path.resolve(__dirname, "./shared"),
     },
   },
-}));e
+}));
 
 function expressPlugin(): Plugin {
   return {
