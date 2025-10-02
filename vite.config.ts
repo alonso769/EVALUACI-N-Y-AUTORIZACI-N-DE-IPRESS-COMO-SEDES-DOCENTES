@@ -6,10 +6,11 @@ import { createServer } from "./server";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  // *** SOLUCIÓN FINAL: Quitar la barra diagonal inicial y final ***
-  // La ruta debe ser el nombre del repositorio SIN barras diagonales en los extremos.
-base: './', // Esto genera rutas relativas (ej: assets/index-hash.js)
-  // --------------------------------------------------------------
+  // *** SOLUCIÓN FINAL CORRECTA para GitHub Pages ***
+  // Usar una cadena vacía ('') obliga a Vite a generar rutas de activos
+  // RELATIVAS al index.html (ej: assets/index-hash.js), lo cual resuelve el 404.
+  base: '', 
+  // ----------------------------------------------------------------------
   server: {
     host: "::",
     port: 8080,
@@ -18,7 +19,7 @@ base: './', // Esto genera rutas relativas (ej: assets/index-hash.js)
     },
   },
   build: {
-    outDir: "docs", // La carpeta de salida es "docs"
+    outDir: "docs", // La carpeta de salida es "docs" para GitHub Pages
   },
   plugins: [react(), expressPlugin()],
   resolve: {
