@@ -15,13 +15,13 @@ export interface Hero3DProps {
 // ¡INTENTO DE SOLUCIÓN FINAL: Usamos la extensión .JPG (mayúsculas) y nombres en minúsculas!
 // SOLUCIÓN: Quitamos la barra inicial '/' para usar rutas relativas al subdirectorio.
 const IMAGE_URLS = [
-    '/images/foto1.jpeg', 
-    '/images/foto2.jpeg', 
-    '/images/foto3.jpeg', 
-    '/images/foto4.jpeg', 
-    '/images/foto5.jpeg', 
-    '/images/foto6.jpeg', 
-    '/images/foto7.jpeg', 
+    'images/foto1.jpeg', 
+    'images/foto2.jpeg', 
+    'images/foto3.jpeg', 
+    'images/foto4.jpeg', 
+    'images/foto5.jpeg', 
+    'images/foto6.jpeg', 
+    'images/foto7.jpeg', 
 ];
 
 // --- NUEVO: Error Boundary simple para capturar fallos dentro del Canvas ---
