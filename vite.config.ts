@@ -1,16 +1,14 @@
 import { defineConfig, Plugin } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
-import { createServer } from "./server";
-
-// Nota: El plugin 'expressPlugin' asume que tienes un archivo './server.ts' para el desarrollo.
+// NOTA: Se asume que 'createServer' y el servidor Express solo se usan en desarrollo y no afectan el build final.
+import { createServer } from "./server"; 
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   // *** CORRECCIÓN CRUCIAL PARA LA CARGA DE ASSETS (IMÁGENES) ***
-  // Usamos la cadena vacía ('') para que los assets cargados dinámicamente
-  // (como en Hero3D.tsx con import.meta.env.BASE_URL) se resuelvan correctamente
-  // desde el subdirectorio de GH Pages (la carpeta /docs).
+  // Usamos la cadena vacía ('') para que import.meta.env.BASE_URL se resuelva 
+  // correctamente en el subdirectorio de GitHub Pages (la carpeta /docs).
   base: '', 
   // ----------------------------------------------------------------------
   server: {
@@ -21,7 +19,8 @@ export default defineConfig(({ mode }) => ({
     },
   },
   build: {
-    // CRUCIAL: Mantenemos outDir como 'docs' para GitHub Pages
+    // CRUCIAL: outDir 'docs' es necesario si GitHub Pages está configurado
+    // para servir el sitio desde la carpeta /docs.
     outDir: "docs", 
   },
   plugins: [react(), expressPlugin()],
@@ -38,8 +37,7 @@ function expressPlugin(): Plugin {
     name: "express-plugin",
     apply: "serve", 
     configureServer(server) {
-      // Nota: Necesitas la función createServer() definida en tu entorno.
-      // Si esto no se usa, puedes quitar esta función y el plugin.
+      // Si usas Express, la lógica iría aquí. Dejamos el esqueleto.
       // const app = createServer(); 
       // server.middlewares.use(app);
     },
