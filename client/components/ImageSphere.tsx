@@ -1,20 +1,52 @@
 import React, { useEffect, useRef } from "react";
-// ✅ IMPORTACIONES CORREGIDAS ✅
 import * as THREE from "three";
-// 🚨 AÑADE LA EXTENSIÓN .js AQUÍ 
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js"; 
-// TextureLoader se accede a través del namespace THREE
 
-// RUTAS DE TUS IMÁGENES (Ya confirmadas)
-const IMAGE_URLS = [
-    '/images/foto1.jpeg', 
-    '/images/foto2.jpeg', 
-    '/images/foto3.jpeg', 
-    '/images/foto4.jpeg', 
-    '/images/foto5.jpeg', 
-    '/images/foto6.jpeg', 
-    '/images/foto7.jpeg', 
+// ----------------------------------------------------------------------
+// --- CÓDIGO CRUCIAL DE LA RUTA ---
+// ----------------------------------------------------------------------
+
+// 1. Obtener la ruta base de Vite.
+const VITE_BASE_URL = import.meta.env.BASE_URL;
+
+// 2. Nombre del repositorio para fallbacks (GitHub Pages)
+// ESTO ES CLAVE: DEBE COINCIDIR EXACTAMENTE CON EL NOMBRE DE TU REPOSITORIO
+const REPO_NAME = 'EVALUACI-N-Y-AUTORIZACI-N-DE-IPRESS-COMO-SEDES-DOCENTES';
+
+// 3. Función para limpiar y construir la ruta correctamente
+const cleanPath = (path: string) => path.replace(/\/\//g, '/').replace(/^\/|\/$/g, '');
+
+const createImageUrl = (fileName: string) => {
+    let base = cleanPath(VITE_BASE_URL);
+
+    // Si la ruta base está vacía ('') o es solo '/', usamos el nombre del repositorio.
+    if (base === '' || base === '/') {
+        // Asume que la carpeta /images está DENTRO del subdirectorio del repo
+        base = REPO_NAME; 
+    }
+    
+    // Construimos la ruta: /nombre-repo/images/foto.jpeg
+    const finalPath = `/${base}/images/${fileName}`;
+
+    console.log(`[Three.js Loader] Intentando cargar: ${finalPath}`);
+    
+    return finalPath;
+};
+
+
+const RAW_IMAGE_NAMES = [
+    'foto1.jpeg', 
+    'foto2.jpeg', 
+    'foto3.jpeg', 
+    'foto4.jpeg', 
+    'foto5.jpeg', 
+    'foto6.jpeg', 
+    'foto7.jpeg', 
 ];
+
+// Rutas de las imágenes AHORA GENERADAS DINÁMICAMENTE CON BASE_URL
+const IMAGE_URLS = RAW_IMAGE_NAMES.map(createImageUrl);
+
 
 const ImageSphere = () => {
     const mountRef = useRef<HTMLDivElement>(null);
@@ -48,10 +80,11 @@ const ImageSphere = () => {
         scene.add(imageGroup);
 
         const numImages = 150; 
-        const radius = 10;      
+        const radius = 10;      
         const geometry = new THREE.PlaneGeometry(3, 2); 
 
         for (let i = 0; i < numImages; i++) {
+            // Usamos la URL generada por la función createImageUrl
             const imageUrl = IMAGE_URLS[i % IMAGE_URLS.length];
             
             const texture = textureLoader.load(imageUrl, 
@@ -62,11 +95,16 @@ const ImageSphere = () => {
                 // Función de error (para depuración)
                 (error) => {
                     // Si ves esto en la Consola, el problema es la ruta de la imagen, no Three.js
-                    console.error('Error al cargar la textura de Three.js. Revisa la ruta de la imagen:', imageUrl, error);
+                    console.error('Error al cargar la textura de Three.js. La ruta es incorrecta:', imageUrl, error);
                 }
             );
             
-            const material = new THREE.MeshBasicMaterial({ map: texture, side: THREE.DoubleSide, transparent: true, opacity: 0.9 });
+            const material = new THREE.MeshBasicMaterial({ 
+                map: texture, 
+                side: THREE.DoubleSide, 
+                transparent: true, 
+                opacity: 0.9 
+            });
             const mesh = new THREE.Mesh(geometry, material);
 
             // Cálculo de Posición Esférica

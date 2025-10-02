@@ -12,17 +12,37 @@ interface Hero3DProps {
   onCtaClick?: () => void;
 }
 
-// *** CRUCIAL: Obtener la ruta base de Vite para compatibilidad con GitHub Pages ***
-// Si vite.config.ts tiene base: '', BASE_URL será '/' o '/nombre-repo/' en producción.
-const BASE_URL = import.meta.env.BASE_URL;
+// ----------------------------------------------------------------------
+// --- CÓDIGO CRUCIAL DE LA RUTA ---
+// ----------------------------------------------------------------------
 
-// Rutas de las imágenes. Asegúrate de que están en la carpeta 'public/images/'
-// SOLUCIÓN FINAL: Usamos .jpeg y construimos la ruta limpiamente.
-// La función .replace() elimina una doble barra si BASE_URL ya termina en una.
-const createImageUrl = (fileName: string) => 
-  `${BASE_URL}images/${fileName}`.replace(/\/\//g, '/');
+// 1. Obtener la ruta base de Vite.
+const VITE_BASE_URL = import.meta.env.BASE_URL;
 
+// 2. Nombre del repositorio para fallbacks (GitHub Pages)
+// ESTO ES CLAVE: DEBE COINCIDIR EXACTAMENTE CON EL NOMBRE DE TU REPOSITORIO
+const REPO_NAME = 'EVALUACI-N-Y-AUTORIZACI-N-DE-IPRESS-COMO-SEDES-DOCENTES';
 
+// 3. Función para limpiar y construir la ruta correctamente
+const cleanPath = (path: string) => path.replace(/\/\//g, '/').replace(/^\/|\/$/g, '');
+
+const createImageUrl = (fileName: string) => {
+  let base = cleanPath(VITE_BASE_URL);
+
+  // Si la ruta base está vacía ('') o es solo '/', usamos el nombre del repositorio.
+  if (base === '' || base === '/') {
+      base = REPO_NAME;
+  }
+  
+  // Construimos la ruta: /nombre-repo/images/foto.jpeg
+  const finalPath = `/${base}/images/${fileName}`;
+
+  console.log(`Intentando cargar: ${finalPath}`);
+  
+  return finalPath;
+};
+
+// Rutas de las imágenes (usando .jpeg y creando la ruta con el repositorio)
 const IMAGE_URLS = [
   'foto1.jpeg',
   'foto2.jpeg',
@@ -59,8 +79,8 @@ class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { has
         <div className="absolute inset-0 flex items-center justify-center p-8 bg-red-100/80 backdrop-blur-sm z-50 rounded-2xl shadow-2xl border-4 border-red-500">
           <div className="text-center text-red-700">
             <h1 className="text-2xl font-bold mb-2">🚨 Error de Carga 3D 🚨</h1>
-            <p className="mb-4">No se pudo cargar la escena 3D. Esto suele ser causado por **archivos de imagen faltantes o rutas incorrectas** en la carpeta **`public/images/`**.</p>
-            <p className="text-sm font-semibold">Revisa la Consola (F12) para los errores 404. La ruta buscada es incorrecta.</p>
+            <p className="mb-4 font-semibold">No se pudo cargar la escena 3D.</p>
+            <p className="text-sm">Esto es el 404. La ruta buscada por el navegador NO existe. Revisa la Consola (F12) para ver **qué ruta** está buscando.</p>
           </div>
         </div>
       );
@@ -82,7 +102,7 @@ const ImageSphere: React.FC<ImageSphereProps> = ({ urls, radius }) => {
   const groupRef = useRef<THREE.Group>(null!);
   const [rotationSpeed] = useState(0.005);
   
-  // Cargamos las texturas. Si falla, el ErrorBoundary se activará.
+  // useLoader es donde ocurre el intento de fetch y el error 404
   const textures = useLoader(THREE.TextureLoader, urls);
 
   // Mueve los planos a sus posiciones iniciales en la esfera
@@ -108,8 +128,7 @@ const ImageSphere: React.FC<ImageSphereProps> = ({ urls, radius }) => {
     }
   });
 
-  // Estilo base para los planos de imagen
-  const planeSize = [1.5, 1.0]; // Ancho, Alto
+  const planeSize = [1.5, 1.0]; 
 
   return (
     <group ref={groupRef}>
@@ -118,7 +137,6 @@ const ImageSphere: React.FC<ImageSphereProps> = ({ urls, radius }) => {
           key={index} 
           position={positions[index]}
         >
-          {/* Rotar el plano para que mire hacia el centro de la esfera */}
           <ambientLight position={positions[index]} intensity={1} />
           
           <planeGeometry args={planeSize as [number, number]} />
