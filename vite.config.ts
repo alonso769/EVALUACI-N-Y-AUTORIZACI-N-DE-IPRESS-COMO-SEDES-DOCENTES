@@ -6,8 +6,9 @@ import { createServer } from "./server";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  // *** SOLUCIÓN CLAVE: Usa la RUTA ABSOLUTA del repositorio ***
-  base: '/EVALUACI-N-Y-AUTORIZACI-N-DE-IPRESS-COMO-SEDES-DOCENTES/', 
+  // *** SOLUCIÓN FINAL: Quitar la barra diagonal inicial y final ***
+  // La ruta debe ser el nombre del repositorio SIN barras diagonales en los extremos.
+  base: 'EVALUACI-N-Y-AUTORIZACI-N-DE-IPRESS-COMO-SEDES-DOCENTES', 
   // --------------------------------------------------------------
   server: {
     host: "::",
