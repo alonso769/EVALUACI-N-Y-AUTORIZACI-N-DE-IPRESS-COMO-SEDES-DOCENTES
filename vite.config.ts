@@ -7,8 +7,8 @@ import { createServer } from "./server";
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   // *** SOLUCIÓN FINAL CORRECTA para GitHub Pages ***
-  // Usar una cadena vacía ('') obliga a Vite a generar rutas de activos
-  // RELATIVAS al index.html (ej: assets/index-hash.js), lo cual resuelve el 404.
+  // Usar una cadena vacía ('') fuerza a Vite a generar rutas de activos
+  // RELATIVAS (ej: assets/index-hash.js), resolviendo el 404 de JS.
   base: '', 
   // ----------------------------------------------------------------------
   server: {
@@ -19,7 +19,8 @@ export default defineConfig(({ mode }) => ({
     },
   },
   build: {
-    outDir: "docs", // La carpeta de salida es "docs" para GitHub Pages
+    // Es CRUCIAL que esto coincida con la carpeta servida en GH Pages
+    outDir: "docs", 
   },
   plugins: [react(), expressPlugin()],
   resolve: {
