@@ -6,10 +6,9 @@ import { createServer } from "./server";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  // *** SOLUCIÓN CLAVE para GitHub Pages: usa la RUTA ABSOLUTA del repositorio ***
-  // El nombre de tu repositorio es: EVALUACI-N-Y-AUTORIZACI-N-DE-IPRESS-COMO-SEDES-DOCENTES
+  // *** SOLUCIÓN CLAVE: Usa la RUTA ABSOLUTA del repositorio ***
   base: '/EVALUACI-N-Y-AUTORIZACI-N-DE-IPRESS-COMO-SEDES-DOCENTES/', 
-  // ----------------------------------------------------------------------
+  // --------------------------------------------------------------
   server: {
     host: "::",
     port: 8080,
@@ -18,7 +17,7 @@ export default defineConfig(({ mode }) => ({
     },
   },
   build: {
-    outDir: "docs", // La carpeta de salida es "docs" para GitHub Pages
+    outDir: "docs", // La carpeta de salida es "docs"
   },
   plugins: [react(), expressPlugin()],
   resolve: {
@@ -32,11 +31,9 @@ export default defineConfig(({ mode }) => ({
 function expressPlugin(): Plugin {
   return {
     name: "express-plugin",
-    apply: "serve", // Solo aplicar durante el desarrollo (modo serve)
+    apply: "serve", 
     configureServer(server) {
       const app = createServer();
-
-      // Agregar la aplicación Express como middleware al servidor de desarrollo de Vite
       server.middlewares.use(app);
     },
   };
