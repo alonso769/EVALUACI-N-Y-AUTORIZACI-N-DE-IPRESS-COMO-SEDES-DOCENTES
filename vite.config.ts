@@ -8,7 +8,7 @@ import { createServer } from "./server";
 export default defineConfig(({ mode }) => ({
   // *** SOLUCIÓN FINAL: Quitar la barra diagonal inicial y final ***
   // La ruta debe ser el nombre del repositorio SIN barras diagonales en los extremos.
-  base: 'EVALUACI-N-Y-AUTORIZACI-N-DE-IPRESS-COMO-SEDES-DOCENTES', 
+base: './', // Esto genera rutas relativas (ej: assets/index-hash.js)
   // --------------------------------------------------------------
   server: {
     host: "::",
