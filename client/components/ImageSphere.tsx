@@ -7,15 +7,15 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 // --- CÓDIGO CRUCIAL DE LA RUTA CORREGIDA PARA VITE/GITHUB PAGES ---
 // ----------------------------------------------------------------------
 
-// 1. Obtener la ruta base de Vite.
-const VITE_BASE_URL = import.meta.env.BASE_URL;
+// NOTA IMPORTANTE: Quitamos VITE_BASE_URL y createImageUrl basado en BASE_URL
+// porque Three.js a menudo maneja mejor las rutas relativas o de raíz (/) 
+// cuando los assets están en la carpeta 'public'.
 
-// 2. Función para construir la ruta
+// 2. Función para construir la ruta simplificada (directa a /images)
 const createImageUrl = (fileName: string) => {
-    // Aseguramos que la base termine con una barra, y luego concatenamos la ruta relativa.
-    const base = VITE_BASE_URL.endsWith('/') ? VITE_BASE_URL : VITE_BASE_URL + '/';
-    const finalPath = `${base}images/${fileName}`;
-    return finalPath;
+    // La ruta debe ser siempre absoluta desde la carpeta 'public' del proyecto.
+    // Esto se resuelve como /images/foto1.jpeg en el servidor.
+    return `/images/${fileName}`;
 };
 
 // Rutas de tus imágenes, ahora generadas dinámicamente:
@@ -69,8 +69,8 @@ const ImageSphere = () => {
         scene.add(imageGroup);
 
         const numImages = 150; 
-        // Aumentamos el radio para que la esfera se vea más grande
-        const radius = 25;      
+        // Aumentamos el radio (lo subí de 25 a 35 para que se vea más grande y detrás)
+        const radius = 35;      
         // Aumentamos el tamaño de los planos para que las imágenes sean más grandes
         const geometry = new THREE.PlaneGeometry(5, 3); 
 
@@ -168,8 +168,8 @@ const ImageSphere = () => {
     return (
         <div 
             ref={mountRef} 
-            // Esto asegura que el Canvas ocupe todo el espacio disponible
-            className="absolute inset-0 w-full h-full" 
+            // CLAVE: Se agregó '-z-10' para que el canvas vaya al fondo.
+            className="absolute inset-0 w-full h-full -z-10" 
             style={{ pointerEvents: 'none' }}
         >
         </div>
