@@ -38,7 +38,7 @@ export default function Index() {
       <Hero3D
         title="Sedes Docentes Primer Nivel de Atención"
         subtitle="DIRIS LIMA CENTRO."
-        ctaLabel="Explorar carpetas"
+        ctaLabel="Explorar Carpetas"
         onCtaClick={scrollToRecursos}
       />
 

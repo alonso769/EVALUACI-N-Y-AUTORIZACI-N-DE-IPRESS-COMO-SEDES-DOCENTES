@@ -41,6 +41,7 @@ const RAW_IMAGE_NAMES = [
     'foto5.jpeg', 
     'foto6.jpeg', 
     'foto7.jpeg', 
+    'foto8.jpeg', 
 ];
 const IMAGE_URLS = RAW_IMAGE_NAMES.map(createImageUrl);
 
