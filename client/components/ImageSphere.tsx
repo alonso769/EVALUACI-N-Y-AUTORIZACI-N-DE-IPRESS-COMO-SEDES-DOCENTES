@@ -1,24 +1,18 @@
 import React, { useEffect, useRef } from "react";
-// ✅ IMPORTACIONES CORREGIDAS ✅
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js"; 
 
 // ----------------------------------------------------------------------
-// --- CÓDIGO CRUCIAL DE LA RUTA CORREGIDA PARA VITE/GITHUB PAGES ---
+// --- CONFIGURACIÓN DE RUTAS ---
 // ----------------------------------------------------------------------
 
-// NOTA IMPORTANTE: Quitamos VITE_BASE_URL y createImageUrl basado en BASE_URL
-// porque Three.js a menudo maneja mejor las rutas relativas o de raíz (/) 
-// cuando los assets están en la carpeta 'public'.
-
-// 2. Función para construir la ruta simplificada (directa a /images)
+// 1. Función para construir la ruta simplificada (directa a /images)
 const createImageUrl = (fileName: string) => {
-    // La ruta debe ser siempre absoluta desde la carpeta 'public' del proyecto.
-    // Esto se resuelve como /images/foto1.jpeg en el servidor.
+    // La ruta absoluta desde la carpeta 'public' del proyecto.
     return `/images/${fileName}`;
 };
 
-// Rutas de tus imágenes, ahora generadas dinámicamente:
+// Rutas de tus imágenes
 const RAW_IMAGE_NAMES = [
     'foto1.jpeg', 
     'foto2.jpeg', 
@@ -31,7 +25,8 @@ const RAW_IMAGE_NAMES = [
 
 const IMAGE_URLS = RAW_IMAGE_NAMES.map(createImageUrl);
 
-// --- FIN CÓDIGO CRUCIAL DE LA RUTA CORREGIDA ---
+// ----------------------------------------------------------------------
+// --- COMPONENTE THREE.JS ---
 // ----------------------------------------------------------------------
 
 const ImageSphere = () => {
@@ -46,10 +41,10 @@ const ImageSphere = () => {
         
         // 1. Configuración de la Escena, Cámara y Renderizador
         const scene = new THREE.Scene();
-        // Aumentamos el FOV a 75 para un poco más de perspectiva
-        const camera = new THREE.PerspectiveCamera(75, currentMount.clientWidth / currentMount.clientHeight, 1, 2000);
-        // Aumentamos la posición de la cámara para que la esfera sea más visible
-        camera.position.z = 30; 
+        // FOV y Aspecto
+        const camera = new THREE.PerspectiveCamera(70, currentMount.clientWidth / currentMount.clientHeight, 1, 2000);
+        // POSICIÓN Z ORIGINAL (más cerca)
+        camera.position.z = 20; 
         
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setPixelRatio(window.devicePixelRatio);
@@ -60,8 +55,8 @@ const ImageSphere = () => {
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
         controls.enableZoom = false;
-        controls.autoRotate = true; // Dejamos la rotación automática para que se mueva sola
-        controls.autoRotateSpeed = 0.5;
+        // Desactivamos la rotación automática en Controls para usar la rotación manual en Animate
+        controls.autoRotate = false; 
 
         // 3. Crear el Grupo de Imágenes (La Esfera de Fotos)
         const textureLoader = new THREE.TextureLoader(); 
@@ -69,10 +64,10 @@ const ImageSphere = () => {
         scene.add(imageGroup);
 
         const numImages = 150; 
-        // Aumentamos el radio (lo subí de 25 a 35 para que se vea más grande y detrás)
-        const radius = 35;      
-        // Aumentamos el tamaño de los planos para que las imágenes sean más grandes
-        const geometry = new THREE.PlaneGeometry(5, 3); 
+        // RADIO ORIGINAL (más pequeño)
+        const radius = 10;      
+        // GEOMETRÍA ORIGINAL (imágenes más pequeñas)
+        const geometry = new THREE.PlaneGeometry(3, 2); 
 
         for (let i = 0; i < numImages; i++) {
             const imageUrl = IMAGE_URLS[i % IMAGE_URLS.length];
@@ -86,11 +81,11 @@ const ImageSphere = () => {
             );
             
             const material = new THREE.MeshBasicMaterial({ 
-                map: texture, 
-                side: THREE.DoubleSide, 
-                transparent: true, 
-                opacity: 0.9 
-            });
+                map: texture, 
+                side: THREE.DoubleSide, 
+                transparent: true, 
+                opacity: 0.9 
+            });
             const mesh = new THREE.Mesh(geometry, material);
 
             // Cálculo de Posición Esférica
@@ -122,10 +117,11 @@ const ImageSphere = () => {
         }, 5000); 
 
         // 5. Bucle de Animación
-        // Eliminamos la rotación aquí ya que controls.autoRotate está activo
         const animate = () => {
             animationFrameId.current = requestAnimationFrame(animate);
-            controls.update(); // Necesario para autoRotate y damping
+            // Rotación manual para el efecto continuo
+            imageGroup.rotation.y += 0.001; 
+            controls.update(); // Necesario para damping
             renderer.render(scene, camera);
         };
 
@@ -133,7 +129,7 @@ const ImageSphere = () => {
 
         // 6. Manejo de Redimensionamiento de Ventana
         const handleResize = () => {
-            if (!mountRef.current) return;
+            if (!mountRef.current) return;
             camera.aspect = currentMount.clientWidth / currentMount.clientHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(currentMount.clientWidth, currentMount.clientHeight);
@@ -145,8 +141,8 @@ const ImageSphere = () => {
             cancelAnimationFrame(animationFrameId.current!);
             clearInterval(highlightIntervalId.current!);
             window.removeEventListener('resize', handleResize);
-            // Limpieza de recursos para evitar "Context Lost"
-            scene.traverse((object) => {
+            // Limpieza de recursos
+            scene.traverse((object) => {
                 if (object instanceof THREE.Mesh) {
                     object.geometry.dispose();
                     if (Array.isArray(object.material)) {
@@ -168,12 +164,13 @@ const ImageSphere = () => {
     return (
         <div 
             ref={mountRef} 
-            // CLAVE: Se agregó '-z-10' para que el canvas vaya al fondo.
-            className="absolute inset-0 w-full h-full -z-10" 
+            // CLASES DE DISEÑO ORIGINAL: absolute inset-0 w-full h-full -z-10
+            // Usamos h-screen para asegurar que ocupe todo el alto si es un fondo.
+            className="absolute inset-0 w-full h-screen -z-10" 
             style={{ pointerEvents: 'none' }}
         >
         </div>
     );
 };
 
-export default ImageSphere
+export default ImageSphere;
