@@ -36,9 +36,9 @@ export default function Index() {
   return (
     <main className="min-h-[calc(100vh-4rem)]">
       <Hero3D
-        title="Campus Hospitalario Futurista"
-        subtitle="Una visión interactiva de un hospital moderno dedicado a la salud y la educación."
-        ctaLabel="Explorar recursos"
+        title="Sedes Docentes Primer Nivel de Atención"
+        subtitle="DIRIS LIMA CENTRO."
+        ctaLabel="Explorar carpetas"
         onCtaClick={scrollToRecursos}
       />
 
@@ -48,8 +48,7 @@ export default function Index() {
             <div className="lg:col-span-3">
               <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">Recursos Académicos y Profesionales</h2>
               <p className="mt-2 text-muted-foreground">
-                Acceda rápidamente a los registros y enlaces oficiales. Esta sección está pensada para personal
-                clínico, docentes y estudiantes, combinando excelencia académica con innovación en salud.
+                Acceda rápidamente a los registros y enlaces oficiales. 
               </p>
             </div>
             <Card className="lg:col-span-2">
@@ -118,7 +117,7 @@ export default function Index() {
                     </TableRow>
                   ))}
                 </TableBody>
-                <TableCaption>Datos de ejemplo, personalizables según su institución.</TableCaption>
+                <TableCaption>Contacto: siroonatech@gmail.com.</TableCaption>
               </Table>
             </CardContent>
           </Card>
