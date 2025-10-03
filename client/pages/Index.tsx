@@ -118,7 +118,7 @@ export default function Index() {
                     </TableRow>
                   ))}
                 </TableBody>
-                <TableCaption>Elaborado por Alonso Sixto Silva Vidal - Contacto: siroonatech@gmail.com.</TableCaption>
+                <TableCaption>Elaborado por Alonso Sixto Silva Vidal.</TableCaption>
               </Table>
             </CardContent>
           </Card>
