@@ -47,7 +47,7 @@ const Header = () => {
       </Link>
       <nav className="flex items-center gap-6 text-sm">
         {/* Enlace de Inicio: Mantiene el Link de React Router y añade scroll al top al hacer click */}
-        <Link to="/"  className="text-muted-foreground hover:text-foreground">Elaborado por Alonso Sixto Silva Vidal - Contacto: siroonatech@gmail.com.</Link>
+        <Link to="/" onClick={() => window.scrollTo(0, 0)} className="text-muted-foreground hover:text-foreground">Elaborado por Alonso Sixto Silva Vidal - Contacto: siroonatech@gmail.com.</Link>
         
         
       </nav>

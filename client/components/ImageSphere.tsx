@@ -1,16 +1,30 @@
 import React, { useEffect, useRef } from "react";
-// Importaciones de Three.js y OrbitControls
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js"; 
 
 // ----------------------------------------------------------------------
-// --- CONFIGURACIÓN DE RUTAS DE IMAGEN (Asumimos /public/images) ---
+// --- CÓDIGO CRUCIAL DE LA RUTA SIMPLIFICADA ---
 // ----------------------------------------------------------------------
 
+// 1. Obtener la ruta base de Vite.
+// En local: BASE_URL será "/"
+// En producción (GitHub Pages): BASE_URL será "/EVALUACI-N-Y-AUTORIZACI-N-DE-IPRESS-COMO-SEDES-DOCENTES/"
+const VITE_BASE_URL = import.meta.env.BASE_URL;
+
+// 2. Función para construir la ruta
 const createImageUrl = (fileName: string) => {
-    // La ruta absoluta desde la carpeta 'public' del proyecto.
-    return `/images/${fileName}`;
+    // 3. Eliminamos la barra inicial del BASE_URL si existe, y luego lo concatenamos con la ruta relativa.
+    // Three.js Loader es inteligente y maneja las rutas relativas o absolutas.
+    const base = VITE_BASE_URL.endsWith('/') ? VITE_BASE_URL : VITE_BASE_URL + '/';
+    
+    // La ruta final debe ser: <BASE_URL>images/<fileName>
+    const finalPath = `${base}images/${fileName}`;
+
+    console.log(`[Three.js Loader] Intentando cargar: ${finalPath}`);
+    
+    return finalPath;
 };
+
 
 const RAW_IMAGE_NAMES = [
     'foto1.jpeg', 
@@ -22,11 +36,9 @@ const RAW_IMAGE_NAMES = [
     'foto7.jpeg', 
 ];
 
+// Genera las URLs usando la ruta base de Vite
 const IMAGE_URLS = RAW_IMAGE_NAMES.map(createImageUrl);
 
-// ----------------------------------------------------------------------
-// --- COMPONENTE THREE.JS ---
-// ----------------------------------------------------------------------
 
 const ImageSphere = () => {
     const mountRef = useRef<HTMLDivElement>(null);
@@ -41,8 +53,7 @@ const ImageSphere = () => {
         // 1. Configuración de la Escena, Cámara y Renderizador
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(70, currentMount.clientWidth / currentMount.clientHeight, 1, 2000);
-        // VALOR CLAVE: Posición Z cercana para que la esfera parezca grande.
-        camera.position.z = 20; 
+        camera.position.z = 20;
         
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setPixelRatio(window.devicePixelRatio);
@@ -53,8 +64,7 @@ const ImageSphere = () => {
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
         controls.enableZoom = false;
-        // La rotación se maneja manualmente en el loop 'animate'
-        controls.autoRotate = false; 
+        controls.autoRotate = false;
 
         // 3. Crear el Grupo de Imágenes (La Esfera de Fotos)
         const textureLoader = new THREE.TextureLoader(); 
@@ -62,19 +72,20 @@ const ImageSphere = () => {
         scene.add(imageGroup);
 
         const numImages = 150; 
-        // VALOR CLAVE: Radio pequeño para agrupar las imágenes cerca de la cámara.
         const radius = 10;      
-        // VALOR CLAVE: Geometría pequeña para planos más discretos.
         const geometry = new THREE.PlaneGeometry(3, 2); 
 
         for (let i = 0; i < numImages; i++) {
             const imageUrl = IMAGE_URLS[i % IMAGE_URLS.length];
             
             const texture = textureLoader.load(imageUrl, 
+                // Éxito
                 () => {},
+                // Progreso
                 undefined,
+                // Error (Ahora te debe mostrar la ruta correcta en la consola)
                 (error) => {
-                    console.error('Error al cargar la textura de Three.js. Revisa la ruta:', imageUrl, error);
+                    console.error('Error al cargar la textura de Three.js. Revisa la ruta de la imagen:', imageUrl, error);
                 }
             );
             
@@ -117,9 +128,8 @@ const ImageSphere = () => {
         // 5. Bucle de Animación
         const animate = () => {
             animationFrameId.current = requestAnimationFrame(animate);
-            // Rotación manual para el efecto continuo de la esfera
             imageGroup.rotation.y += 0.001; 
-            controls.update(); 
+            controls.update();
             renderer.render(scene, camera);
         };
 
@@ -127,7 +137,6 @@ const ImageSphere = () => {
 
         // 6. Manejo de Redimensionamiento de Ventana
         const handleResize = () => {
-            if (!mountRef.current) return;
             camera.aspect = currentMount.clientWidth / currentMount.clientHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(currentMount.clientWidth, currentMount.clientHeight);
@@ -139,7 +148,11 @@ const ImageSphere = () => {
             cancelAnimationFrame(animationFrameId.current!);
             clearInterval(highlightIntervalId.current!);
             window.removeEventListener('resize', handleResize);
-            // Limpieza de recursos
+            if (currentMount.contains(renderer.domElement)) {
+                currentMount.removeChild(renderer.domElement);
+            }
+            renderer.dispose();
+            controls.dispose();
             scene.traverse((object) => {
                 if (object instanceof THREE.Mesh) {
                     object.geometry.dispose();
@@ -150,21 +163,14 @@ const ImageSphere = () => {
                     }
                 }
             });
-
-            if (currentMount.contains(renderer.domElement)) {
-                currentMount.removeChild(renderer.domElement);
-            }
-            renderer.dispose();
-            controls.dispose();
         };
     }, []); 
 
     return (
         <div 
             ref={mountRef} 
-            // Usamos las clases de fondo absoluto y z-index negativo
-            className="absolute inset-0 w-full h-screen -z-10" 
-            style={{ pointerEvents: 'none' }}
+            className="w-full h-96 relative"
+            style={{ minHeight: '400px', pointerEvents: 'none' }}
         >
         </div>
     );
