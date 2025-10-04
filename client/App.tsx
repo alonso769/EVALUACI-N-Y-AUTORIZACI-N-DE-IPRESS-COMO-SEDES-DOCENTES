@@ -43,11 +43,11 @@ const Header = () => {
     <div className="container flex h-16 items-center justify-between">
       <Link to="/" className="flex items-center gap-2 font-bold">
         <span className="inline-flex h-6 w-6 items-center justify-center rounded bg-primary text-primary-foreground">＋</span>
-        <span>AUTOEVALUACION COMO SEDE DOCENTE - CONAPRES</span>
+        <span>CONAPRES</span>
       </Link>
       <nav className="flex items-center gap-6 text-sm">
         {/* Enlace de Inicio: Mantiene el Link de React Router y añade scroll al top al hacer click */}
-        <Link to="/" onClick={() => window.scrollTo(0, 0)} className="text-muted-foreground hover:text-foreground">Elaborado por Alonso Sixto Silva Vidal - Contacto: siroonatech@gmail.com.</Link>
+        <Link to="/" onClick={() => window.scrollTo(0, 0)} className="text-muted-foreground hover:text-foreground">Contacto: siroonatech@gmail.com.</Link>
         
         
       </nav>
