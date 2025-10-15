@@ -12,6 +12,12 @@ const registros: Registro[] = [
     jefatura: "MC. MANUEL ANGEL MATEO YAURI",
     enlace: "https://drive.google.com/drive/folders/1F_UjzjTiBKpUeWyakAzDkVa83x8lh9EO?usp=sharing"
   },
+   {
+    ris: "RIS 1",
+    establecimiento: "CS RAUL PATRUCCO PUIG",
+    jefatura: "MC. LESLIE ANCAJIMA ACUÑA",
+    enlace: "https://drive.google.com/drive/folders/1-pT7TZonVZuSbtcopgU7Xs1SIP_o8Rhu?usp=sharing"
+  },
   {
     ris: "RIS 1",
     establecimiento: "CS UNIDAD VECINAL N°3",
@@ -43,12 +49,6 @@ const registros: Registro[] = [
     enlace: "https://drive.google.com/drive/folders/1plJrgqxaDRq4Mfqr675JzFVB_jGbbd4Q?usp=sharing"
   },
   {
-    ris: "RIS 2",
-    establecimiento: "CS SAN MIGUEL",
-    jefatura: "MC. ANA ERIKA CHINEN YARA",
-    enlace: "https://drive.google.com/drive/folders/1QhgEWXrIkohzp7LsBQgCJTc4Sh_ydL3x?usp=sharing"
-  },
-  {
     ris: "RIS 3",
     establecimiento: "CSMI SURQUILLO",
     jefatura: "MC. MARGARITA SUSANA SILVA DÁVILA",
@@ -59,12 +59,6 @@ const registros: Registro[] = [
     establecimiento: "CS VILLA VICTORIA PORVENIR",
     jefatura: "MC. ROSA VICENTA RODRIGUEZ GARCIA",
     enlace: "https://drive.google.com/drive/folders/1pIj52YvmF8hXYzsshrZ65lokYLOGd1yP?usp=sharing"
-  },
-  {
-    ris: "RIS 3",
-    establecimiento: "CSMC SURQUILLO",
-    jefatura: "PSIQ. SOFIA AURORA RAMIREZ CUENCAS",
-    enlace: "NO REGISTRA NINGUNA CARPETA Y LA MATRIZ DE AUTOEVALUACIÓN SE ENCUENTRA EN 0%"
   },
   {
     ris: "RIS 3",
@@ -113,6 +107,12 @@ const registros: Registro[] = [
     establecimiento: "CS CAMPOY",
     jefatura: "MC. MARIA LUZ VARGAS RAMOS",
     enlace: "https://drive.google.com/drive/folders/1qnVF9LGI5luzEw7zzbA_Jhkp9F389m-2?usp=sharing"
+  },
+   {
+    ris: "RIS 5",
+    establecimiento: "CS SANTA FE DE TOTORITA",
+    jefatura: "MC. EDMUNDO ALEJANDRO VARGAS LADERO",
+    enlace: "https://drive.google.com/drive/folders/1b2cvT1hVErhlfdyIB7clotS9lelA3a5J?usp=sharing"
   },
   {
     ris: "RIS 6",
