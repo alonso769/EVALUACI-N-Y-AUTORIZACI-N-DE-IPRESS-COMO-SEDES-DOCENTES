@@ -147,7 +147,7 @@ const registros: Registro[] = [
   {
     ris: "RIS 7",
     establecimiento: "CS 10 DE OCTUBRE",
-    jefatura: "MC. DARIO FLAVIO RODRIGUEZ RAMIREZ",
+    jefatura: "MC. MARLENY LIMAYLLA CHAMORRO",
     enlace: "https://drive.google.com/drive/folders/1I0ZfJXfdS6MkX1v8Dl8jt0TB1Y7MS1Kf?usp=sharing"
   }
 ];
