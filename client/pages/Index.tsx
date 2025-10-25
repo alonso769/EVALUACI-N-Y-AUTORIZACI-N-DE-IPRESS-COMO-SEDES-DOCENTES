@@ -10,12 +10,12 @@ import { ArrowUpDown } from "lucide-react";
 export default function Index() {
   const recursosRef = React.useRef<HTMLDivElement | null>(null);
   const [query, setQuery] = React.useState("");
-  const [sort, setSort] = React.useState<{ key: "ris" | "establecimiento" | "jefatura"; dir: "asc" | "desc" }>({ key: "ris", dir: "asc" });
+  const [sort, setSort] = React.useState<{ key: "grupo" | "ris" | "establecimiento" | "jefatura"; dir: "asc" | "desc" }>({ key: "ris", dir: "asc" });
 
   const filtered = React.useMemo(() => {
     const q = query.toLowerCase().trim();
     const data = registros.filter((r) =>
-      [r.ris, r.establecimiento, r.jefatura].some((v) => v.toLowerCase().includes(q)),
+      [r.grupo, r.ris, r.establecimiento, r.jefatura].some((v) => v.toLowerCase().includes(q)),
     );
     const sorted = [...data].sort((a, b) => {
       const va = a[sort.key].toLowerCase();
@@ -27,7 +27,7 @@ export default function Index() {
     return sorted;
   }, [query, sort]);
 
-  const onSort = (key: "ris" | "establecimiento" | "jefatura") => {
+  const onSort = (key: "grupo" | "ris" | "establecimiento" | "jefatura") => {
     setSort((s) => (s.key === key ? { key, dir: s.dir === "asc" ? "desc" : "asc" } : { key, dir: "asc" }));
   };
 
@@ -58,7 +58,7 @@ export default function Index() {
               </CardHeader>
               <CardContent>
                 <Input
-                  placeholder="Buscar por RIS, Establecimiento o Jefatura"
+                  placeholder="Buscar por GRUPO, RIS, Establecimiento o Jefatura"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                 />
@@ -78,6 +78,12 @@ export default function Index() {
               <Table>
                 <TableHeader>
                   <TableRow>
+                    <TableHead className="cursor-pointer select-none" onClick={() => onSort("grupo")}>
+                      <div className="inline-flex items-center gap-2">
+                        GRUPO
+                        <ArrowUpDown className="h-4 w-4 text-muted-foreground" />
+                      </div>
+                    </TableHead>
                     <TableHead className="cursor-pointer select-none" onClick={() => onSort("ris")}>
                       <div className="inline-flex items-center gap-2">
                         RIS
@@ -102,6 +108,7 @@ export default function Index() {
                 <TableBody>
                   {filtered.map((r) => (
                     <TableRow key={`${r.ris}-${r.establecimiento}`}>
+                      <TableCell className="font-medium">{r.grupo}</TableCell>
                       <TableCell className="font-medium">{r.ris}</TableCell>
                       <TableCell>{r.establecimiento}</TableCell>
                       <TableCell>{r.jefatura}</TableCell>
