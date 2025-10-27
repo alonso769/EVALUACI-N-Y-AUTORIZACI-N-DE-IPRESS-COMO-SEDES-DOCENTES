@@ -208,7 +208,7 @@ const registros: Registro[] = [
     ris: "RIS 4",
     establecimiento: "PS SAN JUAN MASIAS",
     jefatura: "MC. RAUL PONCE ALIAGA",
-    enlace: ""
+    enlace: "https://drive.google.com/drive/folders/1jz7ow_5LzOtavjksohRsJsqa7gZ1hNW0?usp=sharing"
   },
   {
     grupo:"GRUPO 3",
