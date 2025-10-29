@@ -116,7 +116,7 @@ const registros: Registro[] = [
     grupo:"GRUPO 2",
     ris: "RIS 4",
     establecimiento: "CS SAN BORJA",
-    jefatura: "MC. DIANA CAROLINA DEL ARCA MURGA",
+    jefatura: "MC. FRANCHINETH LOURDES ROJAS RIVERO",
     enlace: "https://drive.google.com/drive/folders/1S5-hnOcdfbCnfHLJHLfagYqleyATyit2?usp=sharing"
   },
   {
