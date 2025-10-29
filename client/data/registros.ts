@@ -39,7 +39,7 @@ const registros: Registro[] = [
     grupo:"GRUPO 2",
     ris: "RIS 2",
     establecimiento: "CSMI MAGDALENA",
-    jefatura: "MC. MARIA KATYA URIBE DE LA TORRE",
+    jefatura: "MC. JOSÉ ENRIQUE MATOS QUINTANILLA",
     enlace: "https://drive.google.com/drive/folders/1q7jWzXN33PhtL7IpMnrflfNJ-37NK0fu?usp=sharing"
   },
   {
