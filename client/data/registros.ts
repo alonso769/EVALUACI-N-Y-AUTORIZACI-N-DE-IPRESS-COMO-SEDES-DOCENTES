@@ -175,20 +175,20 @@ const registros: Registro[] = [
     jefatura: "MC. MARLENY LIMAYLLA CHAMORRO",
     enlace: "https://drive.google.com/drive/folders/1I0ZfJXfdS6MkX1v8Dl8jt0TB1Y7MS1Kf?usp=sharing"
   },
-  {
-    grupo:"GRUPO 3",
-    ris: "RIS 4",
-    establecimiento: "CS EL PINO",
-    jefatura: "MC. VICTOR MIKAIL AMADOR MENDOZA",
-    enlace: "https://drive.google.com/drive/folders/1-Qk79TXJ6Pzcuyz5auIud4jAOQr5vIZh?usp=sharing"
-  },
-  {
-    grupo:"GRUPO 3",
-    ris: "RIS 6",
-    establecimiento: "CS SAN HILARION",
-    jefatura: "MC. JULIO CESAR JAUREGUI DAVILA",
-    enlace: "https://drive.google.com/drive/folders/1pbWzjkRE6rG8fM15O-wPaW8DqwxvMRdb?usp=drive_link"
-  },
+  // {
+  //   grupo:"GRUPO 3",
+  //   ris: "RIS 4",
+  //   establecimiento: "CS EL PINO",
+  //   jefatura: "MC. VICTOR MIKAIL AMADOR MENDOZA",
+  //   enlace: "https://drive.google.com/drive/folders/1-Qk79TXJ6Pzcuyz5auIud4jAOQr5vIZh?usp=sharing"
+  // },
+  // {
+  //   grupo:"GRUPO 3",
+  //   ris: "RIS 6",
+  //   establecimiento: "CS SAN HILARION",
+  //   jefatura: "MC. JULIO CESAR JAUREGUI DAVILA",
+  //   enlace: "https://drive.google.com/drive/folders/1pbWzjkRE6rG8fM15O-wPaW8DqwxvMRdb?usp=drive_link"
+  // },
   {
     grupo:"GRUPO 3",
     ris: "RIS 6",
@@ -202,21 +202,21 @@ const registros: Registro[] = [
     establecimiento: "CS CAJA DE AGUA",
     jefatura: "MC. RAUL PONCE ALIAGA",
     enlace: "https://drive.google.com/drive/folders/14qbFNL1LJCfIQUAhDE5vz-JuvNEvBqgH?usp=drive_link"
-  },
-  {
-    grupo:"GRUPO 3",
-    ris: "RIS 4",
-    establecimiento: "PS SAN JUAN MASIAS",
-    jefatura: "MC. RAUL PONCE ALIAGA",
-    enlace: "https://drive.google.com/drive/folders/1jz7ow_5LzOtavjksohRsJsqa7gZ1hNW0?usp=sharing"
-  },
-  {
-    grupo:"GRUPO 3",
-    ris: "RIS 6",
-    establecimiento: "PS SAGRADA FAMILIA",
-    jefatura: "MC. RAUL PONCE ALIAGA",
-    enlace: "https://drive.google.com/drive/folders/1abRyrmUQ35PzVPMtPLca1QXalbWuqNFX?usp=drive_link"
   }
+  // {
+  //   grupo:"GRUPO 3",
+  //   ris: "RIS 4",
+  //   establecimiento: "PS SAN JUAN MASIAS",
+  //   jefatura: "MC. RAUL PONCE ALIAGA",
+  //   enlace: "https://drive.google.com/drive/folders/1jz7ow_5LzOtavjksohRsJsqa7gZ1hNW0?usp=sharing"
+  // },
+  // {
+  //   grupo:"GRUPO 3",
+  //   ris: "RIS 6",
+  //   establecimiento: "PS SAGRADA FAMILIA",
+  //   jefatura: "MC. RAUL PONCE ALIAGA",
+  //   enlace: "https://drive.google.com/drive/folders/1abRyrmUQ35PzVPMtPLca1QXalbWuqNFX?usp=drive_link"
+  // }
 ];
 
 export default registros;
