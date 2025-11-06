@@ -189,6 +189,13 @@ const registros: Registro[] = [
   //   jefatura: "MC. JULIO CESAR JAUREGUI DAVILA",
   //   enlace: "https://drive.google.com/drive/folders/1pbWzjkRE6rG8fM15O-wPaW8DqwxvMRdb?usp=drive_link"
   // },
+    {
+    grupo:"GRUPO 3",
+    ris: "RIS 1",
+    establecimiento: "CS JUAN PEREZ CARRANZA",
+    jefatura: "MC. CARLA EDITH SERRANO CASTILLO",
+    enlace: "https://drive.google.com/drive/folders/1m6GriTCfSZZrPdef2iSg80wLtUsodMC9?usp=sharing"
+  },
   {
     grupo:"GRUPO 3",
     ris: "RIS 6",
