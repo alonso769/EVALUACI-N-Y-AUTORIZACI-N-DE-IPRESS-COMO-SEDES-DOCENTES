@@ -40,19 +40,29 @@ const Header = () => {
 
     return (
   <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-    <div className="container flex h-16 items-center justify-between">
-      <Link to="/" className="flex items-center gap-2 font-bold">
-        <span className="inline-flex h-6 w-6 items-center justify-center rounded bg-primary text-primary-foreground">＋</span>
-        <span>CONAPRES</span>
-      </Link>
-      <nav className="flex items-center gap-6 text-sm">
-        {/* Enlace de Inicio: Mantiene el Link de React Router y añade scroll al top al hacer click */}
-        <Link to="/" onClick={() => window.scrollTo(0, 0)} className="text-muted-foreground hover:text-foreground">Contacto: siroonatech@gmail.com.</Link>
+    <div className="container flex h-16 items-center justify-between">
+      <Link to="/" className="flex items-center gap-2 font-bold">
+        <span className="inline-flex h-6 w-6 items-center justify-center rounded bg-primary text-primary-foreground">＋</span>
+        <span>CONAPRES</span>
+      </Link>
+      
+      <nav className="flex items-center gap-6 text-sm">
+        {/* Enlace de Contacto existente */}
+        <Link to="/" onClick={() => window.scrollTo(0, 0)} className="text-muted-foreground hover:text-foreground">
+            Contacto: siroonatech@gmail.com.
+        </Link>
         
+        {/* --- BOTÓN SALIR AGREGADO --- */}
+        <a 
+            href="https://docenciaweb.vercel.app" 
+            className="inline-flex items-center justify-center rounded-md bg-red-600 px-4 py-2 font-medium text-white transition-colors hover:bg-red-700"
+        >
+            Salir
+        </a>
         
-      </nav>
-    </div>
-  </header>
+      </nav>
+    </div>
+</header>
     );
 };
 
