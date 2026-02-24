@@ -150,13 +150,6 @@ const registros: Registro[] = [
   {
     grupo:"GRUPO 2",
     ris: "RIS 6",
-    establecimiento: "CS GAMINEDES",
-    jefatura: "MC. IVAN ALFREDO CAMPOSANO GUERRERO",
-    enlace: "https://drive.google.com/drive/folders/1UPGiTEbS18xIgWPBl_aIZsAY3R8BKH-F?usp=sharing"
-  },
-  {
-    grupo:"GRUPO 2",
-    ris: "RIS 6",
     establecimiento: "CS BAYOVAR",
     jefatura: "MC. YESSICA KARIN RAFAEL TERREROS",
     enlace: "https://drive.google.com/drive/folders/1ZhCdw-IA59phRegBnsgJCf1ZZLvtRvFh?usp=sharing"
