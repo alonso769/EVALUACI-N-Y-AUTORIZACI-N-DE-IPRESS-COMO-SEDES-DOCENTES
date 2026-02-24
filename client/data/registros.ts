@@ -196,6 +196,20 @@ const registros: Registro[] = [
     jefatura: "MC. CARLA EDITH SERRANO CASTILLO",
     enlace: "https://drive.google.com/drive/folders/1m6GriTCfSZZrPdef2iSg80wLtUsodMC9?usp=sharing"
   },
+    {
+    grupo:"GRUPO 1",
+    ris: "RIS 5",
+    establecimiento: "CS CHACARILLA DE OTERO",
+    jefatura: "MC. LAURA VERÓNICA PICON CASTILLO DE VERASTEGUI",
+    enlace: "https://drive.google.com/drive/folders/1hmXIbkqcHHeYLoW4PtQwDkOsXrpe-Gf9?usp=drive_link"
+  },
+   {
+    grupo:"GRUPO 2",
+    ris: "RIS 6",
+    establecimiento: "CS GANIMEDES",
+    jefatura: "MC. IVAN ALFREDO CAMPOSANO GUERRO",
+    enlace: "https://drive.google.com/drive/folders/1UPGiTEbS18xIgWPBl_aIZsAY3R8BKH-F?usp=sharing"
+  },
   {
     grupo:"GRUPO 3",
     ris: "RIS 6",
