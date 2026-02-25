@@ -101,13 +101,6 @@ const registros: Registro[] = [
   {
     grupo:"GRUPO 2",
     ris: "RIS 4",
-    establecimiento: "CSMC SAN COSME",
-    jefatura: "MC. VALERIA VALENZUELA RICCIO",
-    enlace: "https://drive.google.com/drive/folders/10oae0pY9uBn860lXuPXlm5irA-xe27OZ?usp=sharing"
-  },
-  {
-    grupo:"GRUPO 2",
-    ris: "RIS 4",
     establecimiento: "CSMI EL PORVENIR",
     jefatura: "MC. LUIS ALBERTO MOLOCHO ARANGO",
     enlace: "https://drive.google.com/drive/folders/1R2FFNRFtazlUr8W723jU6a23mVEhA9C1?usp=sharing"
