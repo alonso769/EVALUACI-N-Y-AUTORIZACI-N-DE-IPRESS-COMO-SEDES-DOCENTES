@@ -27,6 +27,19 @@ export default function Index() {
     return sorted;
   }, [query, sort]);
 
+  // --- NUEVO: LÓGICA DE LOS CONTADORES ---
+  const { totalGeneral, contadoresPorRis } = React.useMemo(() => {
+    const total = filtered.length;
+    const contadores = filtered.reduce((acc, curr) => {
+      const ris = curr.ris;
+      acc[ris] = (acc[ris] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+    
+    return { totalGeneral: total, contadoresPorRis: contadores };
+  }, [filtered]); // Se actualiza cada vez que 'filtered' cambia
+  // ---------------------------------------
+
   const onSort = (key: "grupo" | "ris" | "establecimiento" | "jefatura") => {
     setSort((s) => (s.key === key ? { key, dir: s.dir === "asc" ? "desc" : "asc" } : { key, dir: "asc" }));
   };
@@ -65,6 +78,24 @@ export default function Index() {
               </CardContent>
             </Card>
           </div>
+
+          {/* --- NUEVO: INTERFAZ DE LOS CONTADORES --- */}
+          <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center justify-between bg-white p-4 rounded-xl shadow-sm border">
+            <div className="flex items-center gap-2">
+              <span className="font-semibold text-sm text-muted-foreground">Total de Establecimientos:</span>
+              <span className="bg-primary/10 text-primary font-bold px-3 py-1 rounded-md">{totalGeneral}</span>
+            </div>
+            
+            <div className="flex flex-wrap gap-2">
+              {Object.entries(contadoresPorRis).sort().map(([ris, count]) => (
+                <div key={ris} className="flex items-center gap-1.5 bg-muted/50 border px-3 py-1 rounded-md text-sm">
+                  <span className="font-medium text-muted-foreground">{ris}:</span>
+                  <span className="font-bold">{count}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          {/* ------------------------------------------- */}
 
           <Card>
             <CardHeader className="flex items-center justify-between gap-4 sm:flex-row sm:items-end">

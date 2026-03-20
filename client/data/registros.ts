@@ -231,7 +231,7 @@ const registros: Registro[] = [
     jefatura: "MC. GERARDO MARTIN ELIZALDE GOMEZ",
     enlace: "https://drive.google.com/drive/folders/1XJpTa00qclde0o546aerBpQKOvHEwKBy?usp=sharing"
   },
-    {
+  {
     grupo:"GRUPO 4",
     ris: "RIS 6",
     establecimiento: "CSMC JAIME ZUBIETA",
