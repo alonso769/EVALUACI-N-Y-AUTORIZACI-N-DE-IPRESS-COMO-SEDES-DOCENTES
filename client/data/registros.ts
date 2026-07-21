@@ -101,13 +101,6 @@ const registros: Registro[] = [
   {
     grupo:"GRUPO 2",
     ris: "RIS 4",
-    establecimiento: "CSMC SAN COSME",
-    jefatura: "MC. VALERIA VALENZUELA RICCIO",
-    enlace: "https://drive.google.com/drive/folders/10oae0pY9uBn860lXuPXlm5irA-xe27OZ?usp=sharing"
-  },
-  {
-    grupo:"GRUPO 2",
-    ris: "RIS 4",
     establecimiento: "CSMI EL PORVENIR",
     jefatura: "MC. LUIS ALBERTO MOLOCHO ARANGO",
     enlace: "https://drive.google.com/drive/folders/1R2FFNRFtazlUr8W723jU6a23mVEhA9C1?usp=sharing"
@@ -146,13 +139,6 @@ const registros: Registro[] = [
     establecimiento: "CS HUASCAR II",
     jefatura: "MC. MARIA ISABEL OLIVOS HERRERA",
     enlace: "https://drive.google.com/drive/folders/14F6xAkvdUO0lV3JNSUoiV6LKPeTiEDUX?usp=sharing"
-  },
-  {
-    grupo:"GRUPO 2",
-    ris: "RIS 6",
-    establecimiento: "CS GAMINEDES",
-    jefatura: "MC. IVAN ALFREDO CAMPOSANO GUERRERO",
-    enlace: "https://drive.google.com/drive/folders/1UPGiTEbS18xIgWPBl_aIZsAY3R8BKH-F?usp=sharing"
   },
   {
     grupo:"GRUPO 2",
@@ -196,6 +182,20 @@ const registros: Registro[] = [
     jefatura: "MC. CARLA EDITH SERRANO CASTILLO",
     enlace: "https://drive.google.com/drive/folders/1m6GriTCfSZZrPdef2iSg80wLtUsodMC9?usp=sharing"
   },
+    {
+    grupo:"GRUPO 1",
+    ris: "RIS 5",
+    establecimiento: "CS CHACARILLA DE OTERO",
+    jefatura: "MC. LAURA VERÓNICA PICON CASTILLO DE VERASTEGUI",
+    enlace: "https://drive.google.com/drive/folders/1hmXIbkqcHHeYLoW4PtQwDkOsXrpe-Gf9?usp=drive_link"
+  },
+   {
+    grupo:"GRUPO 2",
+    ris: "RIS 6",
+    establecimiento: "CS GANIMEDES",
+    jefatura: "MC. IVAN ALFREDO CAMPOSANO GUERRO",
+    enlace: "https://drive.google.com/drive/folders/1UPGiTEbS18xIgWPBl_aIZsAY3R8BKH-F?usp=sharing"
+  },
   {
     grupo:"GRUPO 3",
     ris: "RIS 6",
@@ -209,6 +209,34 @@ const registros: Registro[] = [
     establecimiento: "CS CAJA DE AGUA",
     jefatura: "MC. RAUL PONCE ALIAGA",
     enlace: "https://drive.google.com/drive/folders/14qbFNL1LJCfIQUAhDE5vz-JuvNEvBqgH?usp=drive_link"
+  },
+  {
+    grupo:"GRUPO 4",
+    ris: "RIS 6",
+    establecimiento: "CS SAN HILARION",
+    jefatura: "MC. JULIO CESAR JAUREGUI DAVILA",
+    enlace: "https://drive.google.com/drive/folders/1pbWzjkRE6rG8fM15O-wPaW8DqwxvMRdb?usp=drive_link"
+  },
+  {
+    grupo:"GRUPO 4",
+    ris: "RIS 7",
+    establecimiento: "CS JOSE CARLOS MARIATEGUI",
+    jefatura: "MC. DIANE YOVANA TITO MONZON",
+    enlace: "https://drive.google.com/drive/folders/1ZcpRrVoRmWyQIRTz7-FOLxJvQGWPLF2A?usp=sharing"
+  },
+  {
+    grupo:"GRUPO 4",
+    ris: "RIS 7",
+    establecimiento: "CS SU SANTIDAD JUAN PABLO II",
+    jefatura: "MC. GERARDO MARTIN ELIZALDE GOMEZ",
+    enlace: "https://drive.google.com/drive/folders/1XJpTa00qclde0o546aerBpQKOvHEwKBy?usp=sharing"
+  },
+  {
+    grupo:"GRUPO 4",
+    ris: "RIS 6",
+    establecimiento: "CSMC JAIME ZUBIETA",
+    jefatura: "LIC. MERCEDES CALLAS CARAZAS",
+    enlace: "https://drive.google.com/drive/folders/1YISjIr9Yi6I4reNNtGUXNJm0nP5rdehR?usp=drive_link"
   }
   // {
   //   grupo:"GRUPO 3",

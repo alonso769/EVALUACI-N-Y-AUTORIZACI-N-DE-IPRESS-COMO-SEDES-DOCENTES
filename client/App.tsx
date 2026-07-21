@@ -13,7 +13,7 @@ import Hospital from "./pages/Hospital";
 
 const queryClient = new QueryClient();
 
-// HE ELIMINADO EL COMPONENTE HEADER AQUÍ PARA QUE NO OCUPE ESPACIO
+
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
